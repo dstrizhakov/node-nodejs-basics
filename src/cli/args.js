@@ -1,9 +1,8 @@
-import { argv } from 'node:process'
 
 const parseArgs = () => {
-    argv.forEach((arg, index) => {
+    process.argv.forEach((arg, index) => {
         if (arg.startsWith('--'))
-        console.log(`${arg} is ${argv?.[index + 1]}`)
+        console.log(`${arg} is ${process.argv?.[index + 1]}`)
     })
 };
 
