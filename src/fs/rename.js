@@ -11,7 +11,7 @@ const pathToProperFile = path.join(__dirname, 'files', 'properFilename.md');
 const rename = async () => {
    try {
     await fs.access(pathToProperFile);
-    throw Error();
+    throw Error('FS operation failed: Target file already exists');
    } catch (error) {
     if (error.code === 'ENOENT') {
         try {

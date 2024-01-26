@@ -13,6 +13,7 @@ const read = async () => {
     } catch (error) {
         throw Error('FS operation failed')
     }
+
 };
 
 await read();
