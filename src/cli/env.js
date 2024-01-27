@@ -5,7 +5,6 @@ const parseEnv = () => {
            console.log(`${field}=${process.env[field]}`)
        }
    }
-
 };
 
 parseEnv();
