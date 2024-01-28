@@ -30,7 +30,7 @@
 #### Worker Threads (src/wt)
 - [x] +10 worker.js implemented properly
 - [x] +30 main.js implemented properly
-- [x] Child Processes (src/cp)
+#### Child Processes (src/cp)
 - [x] +10 spawns child process
 - [x] +10 child process stdin receives input from master process stdin
 - [x] +10 child process stdout sends data to master process stdout
