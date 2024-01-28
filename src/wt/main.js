@@ -16,14 +16,14 @@ function runWorker(workerData) {
                 resolve({status: 'resolved', data})
             })
             .once('error', () => {
-                reject({status: 'rejected', data: null})
+                reject({status: 'rejected', data: null});
             })
     })
 }
 
 const performCalculations = async () => {
     const cpusLimit = os.cpus().length;
-    const promisesArray = []
+    const promisesArray = [];
     if (isMainThread) {
         for (let i = 0; i < cpusLimit; i++) {
             promisesArray.push(runWorker(10 + i))

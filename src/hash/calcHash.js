@@ -1,31 +1,28 @@
-import * as fs from 'node:fs';
+import {createReadStream} from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'url';
-import crypto from 'node:crypto';
+import {fileURLToPath} from 'url';
+import {createHash} from 'node:crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const pathToFile = path.join(__dirname, 'files', 'fileToCalculateHashFor.txt');
 
 const calculateHash = async () => {
-    const pathToFile = path.join(__dirname, 'files/fileToCalculateHashFor.txt');
+    return new Promise((resolve, reject) => {
+        const fileStream = createReadStream(pathToFile);
+        const hash = createHash('sha256');
 
-    const fileStream = fs.createReadStream(pathToFile);
-    fileStream.on('error', () => {
-        throw Error ('Create stream from file failed')
-    });
-    
-    const hash = crypto.createHash('sha256');
-    fileStream
-    .on('readable', () => {
-        const data = fileStream.read();
-        if (data) {
-            hash.update(data);
-        } else {
-            console.log(hash.digest('hex'))
-        }
-    })
-    .on('error', () => {
-        throw Error ('Hash calculating failed')
+        fileStream
+            .on('data', (data) => {
+                hash.update(data);
+            })
+            .on('end', () => {
+                console.log(hash.digest('hex'));
+                resolve();
+            })
+            .on('error', (error) => {
+                reject(error);
+            })
     })
 
 };
