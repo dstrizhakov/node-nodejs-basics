@@ -2,6 +2,7 @@ import path from 'node:path';
 import {createGzip} from 'node:zlib';
 import {pipeline} from 'node:stream';
 import {
+    stat,
     createReadStream,
     createWriteStream,
 } from 'node:fs';
@@ -18,11 +19,15 @@ const compress = async () => {
     const source = createReadStream(pathToFile);
     const destination = createWriteStream(pathToCompressedFile);
 
+   stat(pathToFile, (err, stats) => {console.log(err ? err : `Размер исходного файла ${stats.size} байт`)})
+
     await new Promise((resolve, reject) => {
         pipeline(source, gzip, destination, (error) => {
             if (error) {
-                reject(error)
+                reject(error);
+                throw Error(error.message)
             } else {
+                stat(pathToCompressedFile, (err, stats) => {console.log(err ? err : `Размер архива ${stats.size} байт`)})
                 resolve();
             }
         })
