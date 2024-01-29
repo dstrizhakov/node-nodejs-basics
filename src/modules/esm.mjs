@@ -9,11 +9,29 @@ import {fileURLToPath} from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const require = createRequire(import.meta.url);
 
 const random = Math.random();
 
 let unknownObject;
+
+// Import assertions are not a stable feature of the JavaScript language.
+// but it's possible in Node version 20 and we can await import
+
+// await import ('./files/a.json', { assert: { type: 'json' }}).then(module => {
+//     if (random > 0.5) {
+//         unknownObject = module;
+//     }
+// })
+// await import ('./files/b.json', { assert: { type: 'json' }}).then(module => {
+//     if (random <= 0.5) {
+//         unknownObject = module;
+//     }
+// })
+
+
+// This solution is to make the import behave synchronously via createRequire
+
+const require = createRequire(import.meta.url);
 
 if (random > 0.5) {
     unknownObject = require('./files/a.json');
